@@ -16,7 +16,7 @@ jobs:
       packages: write
     uses: tloi-dalat/reusable-workflow/.github/workflows/build-push.yaml@main
     with:
-      image: landing-page
+      image: landing-page-site
 
   deploy-dev:
     if: github.ref == 'refs/heads/main'
@@ -39,6 +39,6 @@ jobs:
     uses: tloi-dalat/reusable-workflow/.github/workflows/production-values.yaml@main
     with:
       apps: site
-      images: landing-page
+      images: landing-page-site
       namespace: landing-page
       version: ${{ needs.site.outputs.version }}
