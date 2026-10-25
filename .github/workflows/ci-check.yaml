@@ -20,4 +20,4 @@ jobs:
       contents: read
     uses: tloi-dalat/reusable-workflow/.github/workflows/docker-build-check.yaml@main
     with:
-      images: '[{"image": "landing-page", "dockerfile": "Dockerfile"}]'
+      images: '[{"image": "landing-page-site", "dockerfile": "Dockerfile"}]'
