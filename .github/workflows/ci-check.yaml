@@ -1,0 +1,23 @@
+name: 'check'
+on:
+  pull_request:
+    branches: [main, release, 'releases/**']
+
+concurrency:
+  group: ci-check-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  workflows:
+    name: check-workflows
+    permissions:
+      contents: read
+    uses: tloi-dalat/reusable-workflow/.github/workflows/workflow-lint.yaml@main
+
+  docker:
+    name: check-docker
+    permissions:
+      contents: read
+    uses: tloi-dalat/reusable-workflow/.github/workflows/docker-build-check.yaml@main
+    with:
+      images: '[{"image": "landing-page", "dockerfile": "Dockerfile"}]'

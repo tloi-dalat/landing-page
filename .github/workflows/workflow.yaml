@@ -1,0 +1,44 @@
+name: 'workflow'
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    tags: ['[0-9]+.[0-9]+.[0-9]+']
+
+concurrency:
+  group: workflow-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  site:
+    permissions:
+      contents: read
+      packages: write
+    uses: tloi-dalat/reusable-workflow/.github/workflows/build-push.yaml@main
+    with:
+      image: landing-page
+
+  deploy-dev:
+    if: github.ref == 'refs/heads/main'
+    needs: [site]
+    permissions:
+      contents: read
+    uses: tloi-dalat/reusable-workflow/.github/workflows/dispatch.yaml@main
+    with:
+      apps: site
+      namespace: landing-page
+      environment: development
+      version: ${{ needs.site.outputs.version }}
+    secrets: inherit
+
+  production-values:
+    if: github.ref_type == 'tag'
+    needs: [site]
+    permissions:
+      contents: write
+    uses: tloi-dalat/reusable-workflow/.github/workflows/production-values.yaml@main
+    with:
+      apps: site
+      images: landing-page
+      namespace: landing-page
+      version: ${{ needs.site.outputs.version }}
