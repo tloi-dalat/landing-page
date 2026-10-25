@@ -1,0 +1,10 @@
+*
+!nginx.conf
+!index.html
+!favicon.ico
+!robots.txt
+!site.webmanifest
+!sitemap.xml
+!img
+!data
+!src
