@@ -10,5 +10,3 @@ jobs:
       contents: write
       actions: write
     uses: tloi-dalat/reusable-workflow/.github/workflows/release-tag.yaml@main
-    with:
-      initial-version: 0.1.0
